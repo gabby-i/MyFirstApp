@@ -1,4 +1,30 @@
 package ru.martuanov.menu.viewmodel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import ru.martuanov.menu.dto.Post
+import ru.martuanov.menu.repository.PostRepository
+import ru.martuanov.menu.repository.PostRepositoryInMemoryImpl
 
-class PostViewModel {
+class PostViewModel : ViewModel() {
+
+           init {
+        println("ViewModel: created")
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        println("ViewModel: cleared")
+    }
+
+    // Создаем экземпляр репозитория
+    private val repository: PostRepository = PostRepositoryInMemoryImpl()
+
+    // Данные, доступные для наблюдения
+    val data: LiveData<Post> = repository.get()
+
+    // Методы для вызова из Activity
+    fun like() = repository.like()
+    fun share() = repository.share()
+    fun increaseViews() = repository.increaseViews()
 }
+
